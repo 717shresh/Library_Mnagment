@@ -1,30 +1,33 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { Pool } from "pg";
+
+import authRoutes from "./routes/authRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import sectionRoutes from "./routes/sectionRoutes.js";
+import bookRoutes from "./routes/bookRoutes.js";
+import issueRoutes from "./routes/issueRoutes.js";
 
 dotenv.config();
 
 const app = express();
+
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Connect to Supabase Postgres
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false }
-});
+// Routes
+app.use("/api/auth", authRoutes);       // Register/Login
+app.use("/api/users", userRoutes);      // Admin user management
+app.use("/api/sections", sectionRoutes); // Sections (add/view)
+app.use("/api/books", bookRoutes);      // Books (add/view)
+app.use("/api/issues", issueRoutes);    // Issue/Return system
 
-// Test endpoint
+// Root route
 app.get("/", (req, res) => {
-  res.send("Library Management System API running 🚀");
+  res.send("📚 Library Management System API is running 🚀");
 });
 
-// Example query
-app.get("/books", async (req, res) => {
-  const result = await pool.query("SELECT * FROM books");
-  res.json(result.rows);
-});
-
+// Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on ${PORT}`));
+app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
