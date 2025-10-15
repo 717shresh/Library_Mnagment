@@ -7,7 +7,7 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await API.post("/auth/register", form);
+      await API.post("/api/auth/register", form);
       alert("Registered! Now login.");
     } catch (err) {
       alert(err.response?.data?.error || "Error registering");
