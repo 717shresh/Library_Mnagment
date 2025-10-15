@@ -12,11 +12,14 @@ export default function Navbar() {
     <nav className="flex justify-between bg-gray-900 text-white px-6 py-3">
       <h1 className="font-bold text-lg">📚 Library</h1>
       <div className="space-x-4">
+        <Link to="/">Home</Link>
         <Link to="/dashboard">Dashboard</Link>
         <Link to="/mybooks">My Books</Link>
         <Link to="/add-book">Add Book</Link>
         <Link to="/add-section">Add Section</Link>
         <Link to="/manage-users">Manage Users</Link>
+        <Link to="/login">Login</Link>
+        <Link to="/register">Register</Link>
         <button onClick={logout} className="bg-red-600 px-3 py-1 rounded">
           Logout
         </button>
