@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import pool from "./db.js";
 
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
@@ -14,7 +15,7 @@ const app = express();
 
 // Middleware
 app.use(cors());
-app.use(express.json());
+app.use(express.json());  
 
 // Routes
 app.use("/api/auth", authRoutes);       // Register/Login
@@ -27,6 +28,18 @@ app.use("/api/issues", issueRoutes);    // Issue/Return system
 app.get("/", (req, res) => {
   res.send("📚 Library Management System API is running 🚀");
 });
+
+
+app.get("/test-db", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT NOW()");
+    res.json({ message: "✅ Database connected successfully!", time: result.rows[0].now });
+  } catch (error) {
+    console.error("❌ Database connection error:", error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 
 // Start server
 const PORT = process.env.PORT || 5000;
